@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const auth = require('./middlewares/auth');
 
 const { createUser, login } = require('./controllers/users');
 
@@ -18,13 +19,10 @@ mongoose.connect('mongodb://localhost:27017/filmsdb', {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// const db = mongoose.connection;
-// db.on('error', (error) => console.error(error));
-// db.once('open', () => console.log('Connected to database'));
-
 app.post('/signup', createUser);
 app.post('/signin', login);
-// app.use('/users', require('./routes/users'));
+app.use('/users', auth, require('./routes/users'));
+app.use('/movies', auth, require('./routes/movies'));
 
 app.use(require('./middlewares/errors'));
 
