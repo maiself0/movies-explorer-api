@@ -20,4 +20,4 @@ npm run start — запускает сервер
 npm run dev — запускает сервер с hot-reload
 
 ## Ссылки
-API сервиса - https://api.movies-nest.students.nomoredomains.club
+API сервиса - 
