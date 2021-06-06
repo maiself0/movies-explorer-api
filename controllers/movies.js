@@ -63,9 +63,8 @@ module.exports.deleteMovie = async (req, res, next) => {
       next(new ForbiddenError('Недостаточно прав для удаления карточки.'));
     } else {
       movie.remove();
+      res.send({ message: 'Карточка успешно удалена' });
     }
-
-    res.send({ message: 'Карточка успешно удалена' });
   } catch (err) {
     if (err.name === 'CastError') {
       next(new ValidationError('Переданы некорректные данные _id.'));

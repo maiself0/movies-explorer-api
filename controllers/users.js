@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const ValidationError = require('../errors/validation-err');
-// const AuthorizationError = require('../errors/auth-err');
 const ConflictingRequestError = require('../errors/conflicting-request');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -19,7 +18,7 @@ module.exports.createUser = async (req, res, next) => {
 
     res.send({ _id: user._id, email: user.email, name: user.name });
   } catch (err) {
-    if (err.name === 'MongoError' && err.code === 11000) {
+    if (err.name === 'MongoError') {
       next(new ConflictingRequestError('Данный email уже есть в базе.'));
     }
     if (err.name === 'ValidationError') {
@@ -74,7 +73,9 @@ module.exports.updateUser = async (req, res, next) => {
 
     res.send({ email: user.email, name: user.name });
   } catch (err) {
-    if (err.name === 'ValidationError') {
+    if (err.name === 'MongoError') {
+      next(new ConflictingRequestError('Данный email уже есть в базе.'));
+    } else if (err.name === 'ValidationError') {
       next(new ValidationError('Переданы некорректные данные при обновлении профиля.'));
     } else if (err.name === 'CastError') {
       next(new ValidationError('Переданы некорректные данные _id профиля.'));
