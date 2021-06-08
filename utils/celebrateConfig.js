@@ -1,4 +1,12 @@
 const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
+
+const isUrlValidation = (value, helpers) => {
+  if (validator.isURL(value)) {
+    return value;
+  }
+  return helpers.message('Поле должно быть адрессом');
+};
 
 // main('/') route
 module.exports.celebrateSignup = celebrate({
@@ -30,18 +38,18 @@ module.exports.celebrateCreateMovie = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().uri().required(),
-    trailer: Joi.string().uri().required(),
+    image: Joi.string().required().custom(isUrlValidation),
+    trailer: Joi.string().required().custom(isUrlValidation),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    thumbnail: Joi.string().uri().required(),
+    thumbnail: Joi.string().required().custom(isUrlValidation),
     movieId: Joi.number().required(),
   }),
 });
 
 module.exports.celebrateDeleteMovies = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().required(),
+    movieId: Joi.string().hex().length(24),
   }).unknown(true),
 });
 

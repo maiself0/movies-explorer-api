@@ -36,7 +36,7 @@ module.exports.login = async (req, res, next) => {
       NODE_ENV !== 'production' ? 'secret' : JWT_SECRET,
       { expiresIn: '7d' });
 
-    res.send(token);
+    res.json(token);
   } catch (err) {
     next(err);
   }

@@ -62,7 +62,7 @@ module.exports.deleteMovie = async (req, res, next) => {
     if (req.user._id !== movie.owner.toString()) {
       next(new ForbiddenError('Недостаточно прав для удаления карточки.'));
     } else {
-      movie.remove();
+      await movie.remove();
       res.send({ message: 'Карточка успешно удалена' });
     }
   } catch (err) {
