@@ -5,7 +5,7 @@ module.exports.celebrateSignup = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
   }),
 });
 
@@ -27,7 +27,7 @@ module.exports.celebrateCreateMovie = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
-    duration: Joi.string().required(),
+    duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().uri().required(),
@@ -35,7 +35,7 @@ module.exports.celebrateCreateMovie = celebrate({
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().uri().required(),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
   }),
 });
 
