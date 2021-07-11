@@ -24,6 +24,12 @@ module.exports.celebrateSingin = celebrate({
   }),
 });
 
+module.exports.celebrateAuth = celebrate({
+  headers: Joi.object().keys({
+    Authorization: Joi.string(),
+  }).unknown(true),
+});
+
 // movies route
 module.exports.celebrateCreateMovie = celebrate({
   body: Joi.object().keys({
